@@ -1,5 +1,5 @@
 from database import campus_locations
-
+#push test
 MAX_HISTORY = 5
 navigation_history = []
 
