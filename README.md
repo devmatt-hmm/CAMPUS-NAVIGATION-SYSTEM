@@ -4,51 +4,64 @@ Progressive DSA Application Portfolio — Bicol University Polangui, Computer En
 
 This project is a lab requirement, not a commercial application. Its purpose is to
 demonstrate Data Structures and Algorithms (DSA) concepts through a simple
-console-based campus navigation tool, built incrementally as new topics are taught.
+console-based campus navigation tool, built as new topics are taught.
 
-## Current Phase: Phase 1 - Arrays
+## Rule
 
-Most modules still use array-based logic. Route Planning jumped ahead to a full
-Graph implementation (Dijkstra's shortest path). Later phases will upgrade the
-remaining modules to Stack, Tree, and other structures as those topics are
-covered in class.
+The code only uses topics that have already been taught in class: Arrays,
+Sorting (Bubble, Insertion, Selection), Searching (Linear, Binary), Linked List,
+Stack, and Queue. If a feature would normally need a topic we haven't covered,
+we build it with the topics we have.
 
-No external dependencies — standard Python 3.10+ (uses `match`/`case`).
+## How to Run
+
+```
+python src/main.py
+```
+
+Standard Python 3, no extra libraries.
 
 ## Project Structure
 
 ```
 campus-navigation-system/
-├── main.py                    # Menu + module logic
-├── models.py                  # Location class
-├── database.py                # campus_locations array
-├── display_route.py           # Route Planning - Graph (Dijkstra) + ASCII Map
+├── src/
+│   ├── main.py            # Menu
+│   ├── models.py          # Location class
+│   ├── database.py        # Buildings + road connections
+│   ├── search.py          # Building Search (Linear + Binary Search)
+│   ├── history.py         # Navigation History (Stack)
+│   ├── stats.py           # Building Stats / Filter (Arrays)
+│   ├── sort_rank.py       # Directory Sort / Rank (Bubble, Insertion, Selection)
+│   └── route.py           # Route Planning (Queue + Stack)
 ├── docs/
 │   ├── module-assignments.md
-|   ├── workflow.txt
-│   ├── lab-reports/           # One per DSA phase/topic
+│   ├── workflow.txt
+│   ├── lab-reports/       # One per DSA topic
 │   └── flowcharts/
-└── tests/                     # Sample input/output logs per module
+└── tests/                 # Sample input/output logs per module
 ```
 
 ## Team
 
-| Member | Module | Status |
-|---|---|---|
-| Carl Davin Ravago | Building Search | Done (Array) |
-| Kyla Pelaez | Navigation History | Done (Array) |
-| Francis Danao | Building Stats / Filter | Done (Array) |
-| Mateo Orpiana | Route Planning | Done (Graph — Dijkstra's shortest path + ASCII map) |
-| Sherwin Gil | Directory Sort / Rank | Built, but missing from current main.py — see Revisions Log |
+| Member | Module | File | DSA used | Status |
+|---|---|---|---|---|
+| Carl Davin Ravago | Building Search | `search.py` | Linear Search, Binary Search | Done |
+| Kyla Pelaez | Navigation History | `history.py` | Stack | Done |
+| Francis Danao | Building Stats / Filter | `stats.py` | Arrays | Done |
+| Mateo Orpiana | Route Planning | `route.py` | Queue, Stack | Done |
+| Sherwin Gil | Directory Sort / Rank | `sort_rank.py` | Bubble, Insertion, Selection Sort | Done |
 
 See `docs/module-assignments.md` for responsibilities and DSA concepts per module.
 
 ## DSA Concepts Roadmap
 
-- [x] Arrays — Search, logging, aggregation
-- [ ] Stack — Navigation History upgrade
-- [x] Graph — Route Planning (Dijkstra's shortest path, built ahead of schedule)
-- [ ] Sorting / Tree — Directory Sort/Rank (built once, currently missing from main.py — see Revisions Log)
-- [ ] Hash Map — Building Stats/Filter upgrade (stretch goal)
+- [x] Arrays — Building Stats / Filter, building list
+- [x] Sorting — Bubble, Insertion, Selection (Directory Sort / Rank)
+- [x] Searching — Linear (by name) and Binary (by ID)
+- [x] Stack — Navigation History, Route Planning (path reversal)
+- [x] Queue — Route Planning (exploring the roads)
+- [ ] Linked List 
+- [ ] Trees
 
 Target: 5+ DSA concepts by end of semester, per course rubric.

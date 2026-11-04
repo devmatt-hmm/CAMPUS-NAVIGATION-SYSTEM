@@ -4,44 +4,44 @@ Each member owns one module for the full semester. As new DSA topics are taught,
 you upgrade your own module rather than switching — this keeps ownership clear
 for grading while covering more concepts as a group.
 
+Rule: only use topics already taught in class (Arrays, Bubble/Insertion/Selection
+Sort, Linear/Binary Search, Linked List, Stack, Queue).
+
 ## Assignments
 
-### 1. Building Search — Carl Davin Ravago
-- **Responsibilities:** Search buildings by name; keep results readable.
-- **Phase 1 (current):** Linear Search over `campus_locations` array.
-- **Planned upgrade:** Binary Search (after sorting) or Hash Map lookup.
+### 1. Building Search — Carl Davin Ravago (`src/search.py`)
+- **Responsibilities:** Search buildings by name or by ID; keep results readable.
+- **Built:** Linear Search by name (partial match, empty search rejected) and
+  Binary Search by ID (the building list is kept in order by ID).
+- **Planned upgrade:** Hash Map lookup
 
-### 2. Navigation History — Kyla Pelaez
-- **Responsibilities:** Log recent searches; display history to the user.
-- **Phase 1 (current):** Fixed-capacity array (5 entries), FIFO eviction when full.
-- **Planned upgrade:** Stack (LIFO — matches the DSA topic).
+### 2. Navigation History — Kyla Pelaez (`src/history.py`)
+- **Responsibilities:** Log searches; show the history; remove the latest search.
+- **Built:** Stack on a plain list. Newest search on top, view newest first,
+  remove the most recent, no size limit.
+- **Optional upgrade:** Rebuild the Stack with Linked List nodes.
 
-### 3. Building Stats / Filter — Francis Danao
+### 3. Building Stats / Filter — Francis Danao (`src/stats.py`)
 - **Responsibilities:** Count buildings per category; filter by category.
-- **Phase 1 (current):** Array aggregation and linear filtering.
-- **Planned upgrade:** Hash Map/Dictionary grouping (stretch goal).
+- **Built:** Array counting and linear filtering. Menu input is read as text so
+  typing letters no longer crashes the program.
+- **Planned upgrade:** Hash Map grouping
 
-### 4. Route Planning — Mateo Orpiana
-- **Responsibilities:** Find the shortest path between two buildings; render it on an ASCII campus map.
-- **Built:** Full Graph implementation — Dijkstra's shortest path algorithm over a
-  campus road-junction graph (`display_route.py`), with multi-hop routing and an
-  ASCII map renderer. This is ahead of the Array-phase plan; Graph wasn't covered
-  in lectures yet, but the course allows using any taught-or-untaught technique
-  to solve a real problem.
-- **Note:** uses its own building list/coordinates inside `display_route.py`,
-  separate from `database.py`. A few full names differ slightly between the two
-  (e.g. "Nursing Department" vs "Nursing and Health Department") — worth
-  reconciling so the two stay consistent.
+### 4. Route Planning — Mateo Orpiana (`src/route.py`)
+- **Responsibilities:** Find a route between two buildings.
+- **Built:** A Queue explores the roads outward from the start, and a Stack flips
+  the path so it prints from start to destination. The result is the fewest
+  road steps, not the fewest meters. The 32 road links come from Mateo's original
+  road map and are stored in `database.py`.
+- **Original version:** The Dijkstra/ASCII-map version (`display_route.py`) is
+  saved on the `mateo-graph-route` branch to revisit once Graph is taught.
+- **Planned upgrade:** ~
 
-
-### 5. Directory Sort / Rank — Sherwin Gil
-- **Responsibilities:** List buildings sorted by name, ID, or another key.
-- **Phase 1 (current):** Array + sorting algorithm (bubble sort with early exit)
-  was built and tested on 2026-09-23, but is **missing from the current
-  main.py** — no menu item, no function. Likely dropped during the Route
-  Planning merge, or sitting unmerged on a branch. See Revisions Log.
-- **Planned upgrade:** Binary Search Tree for ranked lookup.
-
+### 5. Directory Sort / Rank — Sherwin Gil (`src/sort_rank.py`)
+- **Responsibilities:** List buildings sorted by name or ID.
+- **Built:** Bubble Sort, Insertion Sort, and Selection Sort. The user picks the
+  sort key and the method. Sorting works on a copy so the original list stays in order.
+- **Planned upgrade:** Binary Search Tree for ranked lookup, only once Trees are taught.
 
 ## Notes / Meeting Log
 
@@ -55,4 +55,6 @@ for grading while covering more concepts as a group.
 - 10/01/2026 - Improved the system's UI (Menus)
 - 10/02/2026 - Minor changes to workflow
 - 10/03/2026 - Route Planning rebuilt as a full Graph (Dijkstra's shortest path) with ASCII map rendering in display_route.py; module ownership swapped (Route Planning -> Mateo, Directory Sort/Rank -> Sherwin)
-- 10/03/2026 - Found 2 regressions during testing: building_stats() crash bug is back, and Directory Sort/Rank is missing from main.py - both logged in Revisions Log, not yet fixed
+- 10/03/2026 - Found 2 regressions during testing: building_stats() crash bug is back, and Directory Sort/Rank is missing from main.py - both logged in Revisions Log
+- 10/16/2026 - Reviewed the code against the "taught topics only" rule. Taught so far: Arrays, Bubble/Insertion/Selection Sort, Linear/Binary Search, Linked List, Stack, Queue. Dijkstra/heapq route code was not covered, so a refactor was planned and built: one file per module, Navigation History as a Stack, Binary Search by ID, three sorts, Route Planning with Queue + Stack
+- [merge date] - Refactor merged into main under src/. Both regressions from 10/03 resolved (Stats crash fixed, Directory Sort/Rank back in the menu). display_route.py removed from main and kept on the mateo-graph-route branch
