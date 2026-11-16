@@ -8,23 +8,39 @@ from history import push
 
 def search_by_name():
     # Linear Search Algorithm
+    # Every building is checked, no matter what. Matches are sorted into three
+    # groups so the best matches are printed first:
+    #   1. exact name   2. name starts with the term   3. name contains the term
     term = input("\nEnter the name of the building to search: ").strip().lower()
     if term == "":
         print("\n  [-SEARCH CANNOT BE EMPTY-]\n")
         return
 
-    push(term)  # save the search in the history stack
-    found = False
+    exact = []
+    starts = []
+    contains = []
+
+    for loc in campus_locations:
+        name = loc.name.lower()
+        if name == term:
+            exact.append(loc)
+        elif name.startswith(term):
+            starts.append(loc)
+        elif term in name:
+            contains.append(loc)
+
+    results = exact + starts + contains
+
+    push(f"NAME: {term} ({len(results)} found)")  # save the search in the history stack
 
     print("\n[-------------------------------------------]")
     print("           [-SEARCH RESULTS-]")
-    for loc in campus_locations:
-        if term in loc.name.lower():
-            print(loc.display_info())
-            found = True
-
-    if not found:
+    if len(results) == 0:
         print("   [-BUILDING NOT FOUND, TRY ANOTHER NAME-]")
+    else:
+        for loc in results:
+            print(loc.display_info())
+        print(f"Matches found: {len(results)}")
     print("[-------------------------------------------]\n")
 
 
@@ -33,12 +49,11 @@ def search_by_id():
     # campus_locations is already in order by building ID, so we can keep
     # cutting the search area in half.
     text = input("\nEnter the building ID to search: ").strip()
-    if not text.isdigit():
+    if not text.isdecimal():
         print("\n  [-PLEASE ENTER A WHOLE NUMBER-]\n")
         return
 
     target = int(text)
-    push("ID " + text)  # save the search in the history stack
 
     low = 0
     high = len(campus_locations) - 1
@@ -55,12 +70,18 @@ def search_by_id():
         else:
             high = mid - 1
 
+    if found is not None:
+        push(f"ID: {target} (found)")  # save the search in the history stack
+    else:
+        push(f"ID: {target} (not found)")
+
     print("\n[-------------------------------------------]")
     print("           [-SEARCH RESULTS-]")
     if found is not None:
         print(found.display_info())
     else:
         print("   [-BUILDING ID NOT FOUND-]")
+        print(f"   Valid IDs are 1 to {len(campus_locations)}")
     print("[-------------------------------------------]\n")
 
 

@@ -1,38 +1,41 @@
-# NAVIGATION HISTORY - Stack (LIFO: Last In, First Out)
-# The stack is a plain list. The END of the list is the TOP of the stack,
-# so the newest search is always on top.
+# NAVIGATION HISTORY - Stack (LIFO: Last In, First Out) built on a Linked List
+# The HEAD of the linked list is the TOP of the stack, so the newest search
+# is always the first node. push = add at the head, pop = remove the head.
 
-history_stack = []
+from linked_list import LinkedList
+
+history_stack = LinkedList()
 
 
 def push(term):
     # Put a new search on top of the stack
-    history_stack.append(term)
+    history_stack.push_front(term)
 
 
 def pop():
     # Take the top (newest) search off the stack
     # Returns None if the stack is empty
-    if is_empty():
-        return None
-    return history_stack.pop()
+    return history_stack.pop_front()
 
 
 def is_empty():
-    return len(history_stack) == 0
+    return history_stack.is_empty()
 
 
 def view_history():
-    # Show the stack from top (newest) to bottom (oldest) without removing anything
+    # Walk the chain from the head (newest) to the end (oldest) without removing anything
     print("\n[-------------------------------------------]")
     print("        [-NAVIGATION HISTORY-]")
     if is_empty():
         print("       [-NO SEARCH HISTORY FOUND-]")
     else:
         number = 1
-        for i in range(len(history_stack) - 1, -1, -1):
-            print(f"{number}. {history_stack[i]}")
+        current = history_stack.head
+        while current is not None:
+            print(f"{number}. {current.data}")
             number += 1
+            current = current.next
+        print(f"Total searches: {history_stack.size}")
     print("[-------------------------------------------]\n")
 
 
@@ -46,22 +49,39 @@ def remove_latest():
     print("[-------------------------------------------]\n")
 
 
+def clear_history():
+    # Pop until the stack is empty
+    count = 0
+    while not is_empty():
+        pop()
+        count += 1
+    print("\n[-------------------------------------------]")
+    if count == 0:
+        print("       [-NOTHING TO CLEAR-]")
+    else:
+        print(f"  [-CLEARED {count} SEARCH(ES)-]")
+    print("[-------------------------------------------]\n")
+
+
 def history_menu():
     while True:
         print("[-------------------------------------------]")
         print("        [-NAVIGATION HISTORY-]")
         print("[1] View history (newest first)")
         print("[2] Remove most recent search")
-        print("[3] Back")
+        print("[3] Clear all history")
+        print("[4] Back")
         print("[-------------------------------------------]")
 
-        choice = input("Select an option [1 - 3]: ").strip()
+        choice = input("Select an option [1 - 4]: ").strip()
 
         if choice == "1":
             view_history()
         elif choice == "2":
             remove_latest()
         elif choice == "3":
+            clear_history()
+        elif choice == "4":
             return
         else:
-            print("\n  [-INVALID CHOICE. PLEASE ENTER [1 - 3]-]\n")
+            print("\n  [-INVALID CHOICE. PLEASE ENTER [1 - 4]-]\n")
